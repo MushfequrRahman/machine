@@ -1,0 +1,50 @@
+.paging-nav {
+  text-align: right;
+  padding-top: 2px;
+}
+
+.paging-nav a {
+  margin: auto 1px;
+  text-decoration: none;
+  display: inline-block;
+  padding: 1px 7px;
+  background: #91b9e6;
+  color: white;
+  border-radius: 3px;
+}
+
+.paging-nav .selected-page {
+  background: #187ed5;
+  font-weight: bold;
+}
+
+#tableData {
+  text-align: center;
+}
+
+th {
+  font-size: 10px !important;
+  font-weight: bold !important;
+  text-align: center;
+}
+
+td {
+  font-size: 10px;
+  font-weight: 600 !important;
+  text-align: center;
+}
+
+.error {
+  color: red;
+}
+
+em {
+  color: red;
+}
+
+.main-footer {
+  background: #fff;
+  padding: 15px 10px 0 10px;
+  color: #444;
+  border-top: 1px solid #d2d6de;
+}
