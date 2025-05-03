@@ -137,29 +137,30 @@
                         <thead style="background:#91b9e6;">
                           <tr>
                             <th title="Serial" data-column="0"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="1" checked><strong>SL</strong></label></th>
-                            <th title="Perchase Factory ID" data-column="1"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="2" checked><strong>PF.ID</strong></label></th>
-                            <th title="Perchase Factory Name" data-column="2"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="3" checked><strong>PF.Name</strong></label></th>
+                            <th title="Purchase Factory ID" data-column="1"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="2" checked><strong>PF.ID</strong></label></th>
+                            <th title="Purchase Factory Name" data-column="2"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="3" checked><strong>PF.Name</strong></label></th>
                             <th title="Current Factory ID" data-column="3"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="4" checked><strong>CF.ID</strong></label></th>
                             <th title="Purchase" data-column="4"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="5" checked><strong>Purpose</strong></label></th>
                             <th title="Machine Code" data-column="5"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="6" checked><strong>M.Code</strong></label></th>
                             <th title="Asset Code" data-column="6"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="7" checked><strong>A.Code</strong></label></th>
                             <th title="Machine Name" data-column="7"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="8" checked><strong>M.Name</strong></label></th>
-                            <th title="Machine Model" data-column="8"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="9" checked><strong>M.Model</strong></label></th>
-                            <th title="Machine Information" data-column="9"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="10" checked><strong>M.Info</strong></label></th>
-                            <th title="Machine Type" data-column="10"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="11" checked><strong>M.Type</strong></label></th>
-                            <th title="Brand Name" data-column="11"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="12" checked><strong>B.Name</strong></label></th>
-                            <th title="Supplier Name" data-column="12"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="13" checked><strong>S.Name</strong></label></th>
-                            <th title="Price" data-column="13"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="14" checked><strong>Price</strong></label></th>
-                            <th title="Quantity" data-column="14"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="15" checked><strong>Qty</strong></label></th>
-                            <th title="Perchase Date" data-column="15"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="16" checked><strong>P.Date</strong></label></th>
-                            <th title="Warranty Period" data-column="16"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="17" checked><strong>Warranty</strong></label></th>
-                            <th title="End Date" data-column="17"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="18" checked><strong>E.Date</strong></label></th>
-                            <th title="Remaining Day" data-column="18"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="19" checked><strong>Remaining</strong></label></th>
-                            <th title="Machine Description" data-column="19"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="20" checked><strong>M.Description</strong></label></th>
-                            <th title="Machine Status" data-column="20"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="21" checked><strong>Status</strong></label></th>
-                            <th title="Rent Date" data-column="21"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="22" checked><strong>R.Date</strong></label></th>
-                            <th title="Rent Days" data-column="22"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="23" checked><strong>R.Days</strong></label></th>
-                            <th title="Return Date" data-column="23"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="24" checked><strong>Ret.Date</strong></label></th>
+                            <th title="Manufacturing Code" data-column="8"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="9" checked><strong>MANUF.Code</strong></label></th>
+                            <th title="Machine Model" data-column="9"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="10" checked><strong>M.Model</strong></label></th>
+                            <th title="Machine Information" data-column="10"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="11" checked><strong>M.Info</strong></label></th>
+                            <th title="Machine Type" data-column="11"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="12" checked><strong>M.Type</strong></label></th>
+                            <th title="Brand Name" data-column="12"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="13" checked><strong>B.Name</strong></label></th>
+                            <th title="Supplier Name" data-column="13"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="14" checked><strong>S.Name</strong></label></th>
+                            <th title="Price" data-column="14"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="15" checked><strong>Price</strong></label></th>
+                            <th title="Quantity" data-column="15"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="16" checked><strong>Qty</strong></label></th>
+                            <th title="Perchase Date" data-column="16"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="17" checked><strong>P.Date</strong></label></th>
+                            <th title="Warranty Period" data-column="17"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="18" checked><strong>Warranty</strong></label></th>
+                            <th title="End Date" data-column="18"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="19" checked><strong>E.Date</strong></label></th>
+                            <th title="Remaining Day" data-column="19"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="20" checked><strong>Remaining</strong></label></th>
+                            <th title="Machine Description" data-column="20"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="21" checked><strong>M.Description</strong></label></th>
+                            <th title="Machine Status" data-column="21"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="22" checked><strong>Status</strong></label></th>
+                            <th title="Rent Date" data-column="22"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="23" checked><strong>R.Date</strong></label></th>
+                            <th title="Rent Days" data-column="23"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="24" checked><strong>R.Days</strong></label></th>
+                            <th title="Return Date" data-column="24"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="25" checked><strong>Ret.Date</strong></label></th>
                             <!-- <th data-column="24"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="25" checked><strong>Rent.Log</strong></label></th>
                             <th data-column="25"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="26" checked><strong>Repair.Log</strong></label></th> -->
                           </tr>
@@ -167,6 +168,7 @@
                         <tfoot>
                           <tr>
                             <th id="rowCount"></th>
+                            <th>&nbsp;</th>
                             <th>&nbsp;</th>
                             <th>&nbsp;</th>
                             <th>&nbsp;</th>
@@ -207,6 +209,7 @@
                               <td style="vertical-align:middle;"><?php echo $row['mcode']; ?></td>
                               <td style="vertical-align:middle;"><?php echo $row['macode']; ?></td>
                               <td style="vertical-align:middle;"><?php echo $row['mname']; ?></td>
+                              <td style="vertical-align:middle;"><?php echo $row['manucode']; ?></td>
                               <td style="vertical-align:middle;"><?php echo $row['model']; ?></td>
                               <td style="vertical-align:middle;"><?php echo $row['minfo']; ?></td>
                               <td style="vertical-align:middle;"><?php echo $row['mtype']; ?></td>

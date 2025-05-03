@@ -367,7 +367,7 @@ class Admin extends CI_Model
 		$result = $this->db->query($query);
 		return $result->result_array();
 	}
-	public function brand_insert($brand)
+	public function brand_insert($brandid, $brand)
 	{
 		date_default_timezone_set('Asia/Dhaka');
 		$d = date('Y-m-d');
@@ -376,12 +376,12 @@ class Admin extends CI_Model
 		$t1 = str_replace(":", "", $t);
 		$ccid = $d1 . $t1;
 
-		$sql = "SELECT * FROM brand_insert WHERE brandname='$brand'";
+		$sql = "SELECT * FROM brand_insert WHERE brandid='$brandid' AND brandname='$brand'";
 		$query = $this->db->query($sql);
 		if ($query->num_rows() == 1) {
 			return false;
 		} else {
-			$sql = "INSERT INTO brand_insert VALUES ('$ccid','$brand')";
+			$sql = "INSERT INTO brand_insert VALUES ('$brandid','$brand')";
 			$query = $this->db->query($sql);
 			return $query;
 		}
@@ -448,6 +448,8 @@ class Admin extends CI_Model
 		$smonth = date('F', strtotime($pdate));
 		$syear = date('Y', strtotime($pdate));
 
+		$rsyear = substr($syear, 2);
+
 		$d = date('Y-m-d');
 		$t = date("H:i:s");
 		$d1 = str_replace("-", "", $d);
@@ -461,55 +463,123 @@ class Admin extends CI_Model
 			$midnumm = $row['midnum'];
 			//$midnum = $midnum + 1;
 		}
+		// for ($i = 1; $i <= $pqty; $i++) {
+
+		// 	$midnum = $midnumm + $i;
+		// 	$macode = $factoryid . '-' . $mpid . '-' . $mcode . '-' . $brandid . '-' . $mtid . '-' . $rsyear . '-' . $midnum;
+		// 	$rand = rand(2000, 5000);
+		// 	$t = date("H:i:s");
+		// 	$t1 = str_replace(":", "", $t);
+
+		// 	$ccid = $ccid + $rand + $t1 + $i;
+
+
+		// 	$sql = "SELECT * FROM machine_asset_code WHERE macid='$ccid'";
+		// 	$query = $this->db->query($sql);
+
+		// 	if ($query->num_rows() == 1) {
+		// 		$ccid = $ccid + 1;
+
+		// 		$sqla = "INSERT INTO machine_asset_code VALUES ('$ccid','$macode','$factoryid','$mcode','$mtid','$midnum','$ccid')";
+
+		// 		$sqlr = "INSERT INTO machine_root_asset_code VALUES ('$ccid')";
+
+		// 		$sql = "INSERT INTO machine_inventory VALUES ('$ccid','$factoryid','$factoryid','$macode','$mcode','$mtid','$monid','$brandid','$supplierid','1','$pdate','$smonth','$syear','$price','$wr','$description','0','0000-00-00','0','$ccid','')";
+
+		// 		//$sqll = "INSERT INTO machine_renthistory_insert VALUES ('$ccid','$macode','$factoryid','$factoryid','0','',CURDATE(),CURTIME(),CURDATE(),CURTIME(),'','','$ccid')";
+
+
+		// 		$querya = $this->db->query($sqla);
+		// 		$queryr = $this->db->query($sqlr);
+		// 		$query = $this->db->query($sql);
+
+		// 		//$queryl = $this->db->query($sqll);
+
+		// 	} else {
+
+		// 		$sqla = "INSERT INTO machine_asset_code VALUES ('$ccid','$macode','$factoryid','$mcode','$mtid','$midnum','$ccid')";
+
+		// 		$sqlr = "INSERT INTO machine_root_asset_code VALUES ('$ccid')";
+
+		// 		$sql = "INSERT INTO machine_inventory VALUES ('$ccid','$factoryid','$factoryid','$macode','$mcode','$mtid','$monid','$brandid','$supplierid','1','$pdate','$smonth','$syear','$price','$wr','$description','0','0000-00-00','0','$ccid','')";
+
+		// 		//$sqll = "INSERT INTO machine_renthistory_insert VALUES ('$ccid','$macode','$factoryid','$factoryid','0','',CURDATE(),CURTIME(),CURDATE(),CURTIME(),'','','$ccid')";
+
+
+		// 		$querya = $this->db->query($sqla);
+		// 		$queryr = $this->db->query($sqlr);
+		// 		$query = $this->db->query($sql);
+
+		// 		//$queryl = $this->db->query($sqll);
+		// 	}
+		// }
+
 		for ($i = 1; $i <= $pqty; $i++) {
 
 			$midnum = $midnumm + $i;
-			$macode = $factoryid . '-' . $mpid . '-' . $mcode . '-' . $mtid . '-' . $midnum;
-
-			$ccid = $ccid + $i;
-
+			$macode = $factoryid . '-' . $mpid . '-' . $mcode . '-' . $brandid . '-' . $mtid . '-' . $rsyear . '-' . $midnum;
+		
+			$rand = rand(1, 500000000);
+			$t = date("H:i:s");
+			$t1 = str_replace(":", "", $t);
+		
+			$ccid = $ccid + $rand + $t1 + $i;
+		
+			// ইউনিক $ccid নিশ্চিত করার জন্য লুপ
+			while (true) {
+				$sql = "SELECT * FROM machine_asset_code WHERE macid='$ccid'";
+				$query = $this->db->query($sql);
+		
+				if ($query->num_rows() == 0) {
+					// যদি মিল না পাওয়া যায়, তাহলে লুপ থেকে বেরিয়ে যান
+					break;
+				}
+				// যদি $ccid মেলে, তাহলে 1 যোগ করুন
+				$ccid = $ccid + 1;
+			}
+		
+			// `machine_asset_code` টেবিলে ডাটা ইনসার্ট করা
 			$sqla = "INSERT INTO machine_asset_code VALUES ('$ccid','$macode','$factoryid','$mcode','$mtid','$midnum','$ccid')";
-
+		
+			// `machine_root_asset_code` টেবিলে ডাটা ইনসার্ট করা
 			$sqlr = "INSERT INTO machine_root_asset_code VALUES ('$ccid')";
-
-			$sql = "INSERT INTO machine_inventory VALUES ('$ccid','$factoryid','$factoryid','$macode','$mcode','$mtid','$monid','$brandid','$supplierid','1','$pdate','$smonth','$syear','$price','$wr','$description','0','0000-00-00','0','$ccid')";
-
-			//$sqll = "INSERT INTO machine_renthistory_insert VALUES ('$ccid','$macode','$factoryid','$factoryid','0','',CURDATE(),CURTIME(),CURDATE(),CURTIME(),'','','$ccid')";
-
-
+		
+			// `machine_inventory` টেবিলে ডাটা ইনসার্ট করা
+			$sql = "INSERT INTO machine_inventory VALUES ('$ccid','$factoryid','$factoryid','$macode','$mcode','$mtid','$monid','$brandid','$supplierid','1','$pdate','$smonth','$syear','$price','$wr','$description','0','0000-00-00','0','$ccid','')";
+		
+			// কোয়েরি এক্সিকিউট করা
 			$querya = $this->db->query($sqla);
 			$queryr = $this->db->query($sqlr);
 			$query = $this->db->query($sql);
-
-			//$queryl = $this->db->query($sqll);
 		}
+		
 		return $query;
 	}
 	public function machine_inventory_list()
 	{
-		$query = "SELECT factoryname,pfactoryid,cfactoryid,
-		mpurpose,(machine_name.mcode) AS mcode,
-		minvid,rminvid,macode,mname,minfo,model,mtype,brandname,supplier,price,miqty,
-		pdate,warranty,description,mistatus,rentdays,rentdate
+		// $query = "SELECT factoryname,pfactoryid,cfactoryid,
+		// mpurpose,(machine_name.mcode) AS mcode,
+		// minvid,rminvid,macode,manucode,mname,minfo,model,mtype,brandname,supplier,price,miqty,
+		// pdate,warranty,description,mistatus,rentdays,rentdate
 
-		FROM machine_inventory
-		JOIN model_name ON model_name.monid=machine_inventory.monid
-		JOIN machine_type ON machine_type.mtid=machine_inventory.mtid
-		JOIN factory ON factory.factoryid=machine_inventory.pfactoryid
-		JOIN supplier_insert ON supplier_insert.supplierid=machine_inventory.supplierid
-		JOIN brand_insert ON brand_insert.brandid=machine_inventory.brandid
-		JOIN machine_name ON machine_name.mcode=model_name.mcode
-		JOIN machine_purpose ON machine_purpose.mpid=machine_name.mpid 
-		WHERE mistatus!='6'
-		ORDER BY factoryid,mpurpose,mname,minvid ASC";
-		$result = $this->db->query($query);
-		return $result->result_array();
-	}
-	public function factory_wise_machine_inventory_list($factoryid)
-	{
+		// FROM machine_inventory
+		// JOIN model_name ON model_name.monid=machine_inventory.monid
+		// JOIN machine_type ON machine_type.mtid=machine_inventory.mtid
+		// JOIN factory ON factory.factoryid=machine_inventory.pfactoryid
+		// JOIN supplier_insert ON supplier_insert.supplierid=machine_inventory.supplierid
+		// JOIN brand_insert ON brand_insert.brandid=machine_inventory.brandid
+		// JOIN machine_name ON machine_name.mcode=model_name.mcode
+		// JOIN machine_purpose ON machine_purpose.mpid=machine_name.mpid
+
+		// WHERE mistatus!='6'
+		// ORDER BY factoryid,mpurpose,mname,minvid,macode ASC";
+		// $result = $this->db->query($query);
+		// return $result->result_array();
+
 		$query = "SELECT factoryname,pfactoryid,cfactoryid,
 		mpurpose,(machine_name.mcode) AS mcode,
-		minvid,rminvid,macode,mname,minfo,model,mtype,brandname,supplier,price,miqty,
+		minvid,machine_inventory.rminvid,(machine_inventory.macode) AS macode,
+		manucode,mname,minfo,model,mtype,brandname,supplier,price,miqty,
 		pdate,warranty,description,mistatus,rentdays,rentdate
 
 		FROM machine_inventory
@@ -520,10 +590,47 @@ class Admin extends CI_Model
 		JOIN brand_insert ON brand_insert.brandid=machine_inventory.brandid
 		JOIN machine_name ON machine_name.mcode=model_name.mcode
 		JOIN machine_purpose ON machine_purpose.mpid=machine_name.mpid
-		WHERE (pfactoryid='$factoryid' OR cfactoryid='$factoryid') AND mistatus NOT IN('6','7')
-		ORDER BY factoryid,mpurpose,mname,minvid ASC";
+		JOIN machine_asset_code ON machine_asset_code.macode = machine_inventory.macode
+		WHERE machine_inventory.mistatus!='6'
+		ORDER BY mafid,machine_asset_code.mcode,machine_asset_code.mtid,midnum ASC";
 		$result = $this->db->query($query);
 		return $result->result_array();
+	}
+	public function factory_wise_machine_inventory_list($factoryid)
+	{
+		$query = "SELECT factoryname,pfactoryid,cfactoryid,
+		mpurpose,(machine_name.mcode) AS mcode,
+		minvid,machine_inventory.rminvid,(machine_inventory.macode) AS macode,
+		manucode,mname,minfo,model,mtype,brandname,supplier,price,miqty,
+		pdate,warranty,description,mistatus,rentdays,rentdate
+
+		FROM machine_inventory
+		JOIN model_name ON model_name.monid=machine_inventory.monid
+		JOIN machine_type ON machine_type.mtid=machine_inventory.mtid
+		JOIN factory ON factory.factoryid=machine_inventory.pfactoryid
+		JOIN supplier_insert ON supplier_insert.supplierid=machine_inventory.supplierid
+		JOIN brand_insert ON brand_insert.brandid=machine_inventory.brandid
+		JOIN machine_name ON machine_name.mcode=model_name.mcode
+		JOIN machine_purpose ON machine_purpose.mpid=machine_name.mpid
+		JOIN machine_asset_code ON machine_asset_code.macode = machine_inventory.macode
+		WHERE (pfactoryid='$factoryid' OR cfactoryid='$factoryid') AND mistatus NOT IN('6','7')
+		ORDER BY mafid,machine_asset_code.mcode,machine_asset_code.mtid,midnum ASC";
+		$result = $this->db->query($query);
+		return $result->result_array();
+	}
+	public function machine_inventory_additional_info_insert($data)
+	{
+
+		//$sql = "INSERT INTO machine_inventory VALUES ('$data[macode]','$data[manucode]')";
+		//$query = $this->db->query($sql);
+		//return $query;
+
+
+
+		$sql = "UPDATE machine_inventory SET manucode='$data[manucode]'
+			WHERE macode='$data[macode]' ";
+		$query = $this->db->query($sql);
+		return $query;
 	}
 	public function machine_rent_insert($minvid, $macode, $cfactoryid, $dfid, $rd, $rp, $rentdate, $remarks, $rminvid)
 	{
@@ -1726,7 +1833,7 @@ class Admin extends CI_Model
 		JOIN sewing_floor_insert ON sewing_floor_insert.sfnid= sewing_line_insert.sfnid
 		WHERE machine_allocate_to_line.matlstatus = '1' AND afactoryid='$factoryid'
 		
-		GROUP BY afactoryid,machine_purpose.mpid,machine_type.mtid,mcode";
+		GROUP BY afactoryid,machine_purpose.mpid,machine_type.mtid,mcode,sewing_line_insert.slnid";
 		$result = $this->db->query($query);
 		return $result->result_array();
 	}
@@ -1752,7 +1859,7 @@ class Admin extends CI_Model
 		JOIN sewing_floor_insert ON sewing_floor_insert.sfnid= sewing_line_insert.sfnid
 		WHERE machine_allocate_to_line.matlstatus = '1'
 		
-		GROUP BY afactoryid,machine_purpose.mpid,machine_type.mtid,mcode";
+		GROUP BY afactoryid,machine_purpose.mpid,machine_type.mtid,mcode,sewing_line_insert.slnid";
 		$result = $this->db->query($query);
 		return $result->result_array();
 	}
@@ -1887,6 +1994,17 @@ class Admin extends CI_Model
 					mcode,
 					mtid,
 					mpid ";
+		$result = $this->db->query($query);
+		return $result->result_array();
+	}
+	public function machine_assetcode_print($factoryid, $mcode, $mtid)
+	{
+		$query = "SELECT machine_inventory.macode,machine_inventory.minvid,machine_inventory.manucode 
+		FROM machine_inventory
+		JOIN machine_asset_code ON machine_inventory.macode = machine_asset_code.macode
+		WHERE pfactoryid='$factoryid' AND machine_inventory.mcode='$mcode' 
+		AND machine_inventory.mtid='$mtid' AND mistatus NOT IN('6','7')
+		ORDER BY midnum ASC";
 		$result = $this->db->query($query);
 		return $result->result_array();
 	}

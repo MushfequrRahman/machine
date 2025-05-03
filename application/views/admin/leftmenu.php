@@ -288,6 +288,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								<li><a href="<?php echo base_url(); ?>Dashboard/machine_inventory_list"><i class="fa fa-circle-o"></i>Machine Inventory List</a></li> -->
 								<li><a href="<?php echo base_url(); ?>Dashboard/machine_inventory_insert_form"><i class="fa fa-circle-o"></i>Add Machine Inventory</a></li>
 								<li><a href="<?php echo base_url(); ?>Dashboard/machine_inventory_list"><i class="fa fa-circle-o"></i>Machine Inventory List</a></li>
+								<li><a href="<?php echo base_url(); ?>Dashboard/machine_inventory_additional_info_insert_form"><i class="fa fa-circle-o"></i>Add Additional Info</a></li>
 								<li><a href="<?php echo base_url(); ?>Dashboard/machine_requisition_insert_form"><i class="fa fa-circle-o"></i>Add Machine Requisition</a></li>
 								<li><a href="<?php echo base_url(); ?>Dashboard/date_wise_machine_requisition_list_form"><i class="fa fa-circle-o"></i>Machine Requisition List</a></li>
 								<li><a href="<?php echo base_url(); ?>Dashboard/multiple_machine_rent_insert_form"><i class="fa fa-circle-o"></i>Add Machine Rent</a></li>
@@ -303,6 +304,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								<li><a href="<?php echo base_url(); ?>Dashboard/date_wise_machine_repair_list_form"><i class="fa fa-circle-o"></i>Machine Repair List</a></li>
 								<li><a href="<?php echo base_url(); ?>Dashboard/multiple_machine_disposal_insert_form"><i class="fa fa-circle-o"></i>Add Machine Disposal</a></li>
 								<li><a href="<?php echo base_url(); ?>Dashboard/multiple_machine_sell_insert_form"><i class="fa fa-circle-o"></i>Add Machine Sell</a></li>
+								<li><a href="<?php echo base_url(); ?>Dashboard/machine_assetcode_print_form"><i class="fa fa-circle-o"></i>Machine A.Code Print</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -386,6 +388,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								<li><a href="<?php echo base_url(); ?>Dashboard/machine_inventory_list"><i class="fa fa-circle-o"></i>Machine Inventory List</a></li> -->
 								<li><a href="<?php echo base_url(); ?>Dashboard/machine_inventory_insert_form"><i class="fa fa-circle-o"></i>Add Machine Inventory</a></li>
 								<li><a href="<?php echo base_url(); ?>Dashboard/machine_inventory_list"><i class="fa fa-circle-o"></i>Machine Inventory List</a></li>
+								<li><a href="<?php echo base_url(); ?>Dashboard/machine_inventory_additional_info_insert_form"><i class="fa fa-circle-o"></i>Add Additional Info</a></li>
 								<li><a href="<?php echo base_url(); ?>Dashboard/machine_requisition_insert_form"><i class="fa fa-circle-o"></i>Add Machine Requisition</a></li>
 								<li><a href="<?php echo base_url(); ?>Dashboard/date_wise_machine_requisition_list_form"><i class="fa fa-circle-o"></i>Machine Requisition List</a></li>
 								<li><a href="<?php echo base_url(); ?>Dashboard/multiple_machine_rent_insert_form"><i class="fa fa-circle-o"></i>Add Machine Rent</a></li>
@@ -401,6 +404,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								<li><a href="<?php echo base_url(); ?>Dashboard/date_wise_machine_repair_list_form"><i class="fa fa-circle-o"></i>Machine Repair List</a></li>
 								<li><a href="<?php echo base_url(); ?>Dashboard/multiple_machine_disposal_insert_form"><i class="fa fa-circle-o"></i>Add Machine Disposal</a></li>
 								<li><a href="<?php echo base_url(); ?>Dashboard/multiple_machine_sell_insert_form"><i class="fa fa-circle-o"></i>Add Machine Sell</a></li>
+								<li><a href="<?php echo base_url(); ?>Dashboard/machine_assetcode_print_form"><i class="fa fa-circle-o"></i>Machine A.Code Print</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -441,6 +445,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								<!-- <li><a href="<?php echo base_url(); ?>Dashboard/sewing_line_insert_form"><i class="fa fa-circle-o"></i>Add Sewing Line</a></li> -->
 								<li><a href="<?php echo base_url(); ?>Dashboard/multiple_sewing_line_insert_form"><i class="fa fa-circle-o"></i>Add Sewing Line</a></li>
 								<li><a href="<?php echo base_url(); ?>Dashboard/sewing_line_list"><i class="fa fa-circle-o"></i>Sewing Line List</a></li>
+								<li><a href="<?php echo base_url(); ?>Dashboard/machine_assetcode_print_form"><i class="fa fa-circle-o"></i>Machine A.Code Print</a></li>
 							</ul>
 						</li>
 
@@ -485,6 +490,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				<li><a href="<?php echo base_url(); ?>Dashboard/machine_inventory_list"><i class="fa fa-circle-o"></i>Machine Inventory List</a></li> -->
 								<li><a href="<?php echo base_url(); ?>Dashboard/machine_inventory_insert_form"><i class="fa fa-circle-o"></i>Add Machine Inventory</a></li>
 								<li><a href="<?php echo base_url(); ?>Dashboard/machine_inventory_list"><i class="fa fa-circle-o"></i>Machine Inventory List</a></li>
+								<li><a href="<?php echo base_url(); ?>Dashboard/machine_inventory_additional_info_insert_form"><i class="fa fa-circle-o"></i>Add Additional Info</a></li>
 								<li><a href="<?php echo base_url(); ?>Dashboard/machine_requisition_insert_form"><i class="fa fa-circle-o"></i>Add Machine Requisition</a></li>
 								<li><a href="<?php echo base_url(); ?>Dashboard/date_wise_machine_requisition_list_form"><i class="fa fa-circle-o"></i>Machine Requisition List</a></li>
 								<li><a href="<?php echo base_url(); ?>Dashboard/multiple_machine_rent_insert_form"><i class="fa fa-circle-o"></i>Add Machine Rent</a></li>
@@ -540,6 +546,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								<!-- <li><a href="<?php echo base_url(); ?>Dashboard/sewing_line_insert_form"><i class="fa fa-circle-o"></i>Add Sewing Line</a></li> -->
 								<li><a href="<?php echo base_url(); ?>Dashboard/multiple_sewing_line_insert_form"><i class="fa fa-circle-o"></i>Add Sewing Line</a></li>
 								<li><a href="<?php echo base_url(); ?>Dashboard/sewing_line_list"><i class="fa fa-circle-o"></i>Sewing Line List</a></li>
+								<li><a href="<?php echo base_url(); ?>Dashboard/machine_assetcode_print_form"><i class="fa fa-circle-o"></i>Machine A.Code Print</a></li>
 							</ul>
 						</li>
 
@@ -584,6 +591,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				<li><a href="<?php echo base_url(); ?>Dashboard/machine_inventory_list"><i class="fa fa-circle-o"></i>Machine Inventory List</a></li> -->
 								<li><a href="<?php echo base_url(); ?>Dashboard/machine_inventory_insert_form"><i class="fa fa-circle-o"></i>Add Machine Inventory</a></li>
 								<li><a href="<?php echo base_url(); ?>Dashboard/machine_inventory_list"><i class="fa fa-circle-o"></i>Machine Inventory List</a></li>
+								<li><a href="<?php echo base_url(); ?>Dashboard/machine_inventory_additional_info_insert_form"><i class="fa fa-circle-o"></i>Add Additional Info</a></li>
 								<li><a href="<?php echo base_url(); ?>Dashboard/machine_requisition_insert_form"><i class="fa fa-circle-o"></i>Add Machine Requisition</a></li>
 								<li><a href="<?php echo base_url(); ?>Dashboard/date_wise_machine_requisition_list_form"><i class="fa fa-circle-o"></i>Machine Requisition List</a></li>
 								<li><a href="<?php echo base_url(); ?>Dashboard/multiple_machine_rent_insert_form"><i class="fa fa-circle-o"></i>Add Machine Rent</a></li>

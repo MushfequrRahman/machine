@@ -39,7 +39,16 @@ class Dashboard extends CI_Controller
 		} elseif ($usertype == '3') {
 			$data['ul'] = $this->Admin->factory_wise_machine_status($factoryid);
 			$this->load->view('admin/maintenance_dashboard', $data);
-		} else {
+			
+		} elseif ($usertype == '4') {
+			$data['ul'] = $this->Admin->machine_status();
+			$this->load->view('admin/iehead_dashboard', $data);
+			
+		}elseif ($usertype == '5') {
+			$data['ul'] = $this->Admin->machine_status();
+			$this->load->view('admin/maintenancehead_dashboard', $data);
+			
+		}else {
 			$this->load->view('error/error_404', $data);
 		}
 		$this->load->view('admin/footer');
@@ -688,12 +697,14 @@ class Dashboard extends CI_Controller
 		$this->load->library('form_validation');
 		$this->load->model('Admin');
 		if ($this->input->post('submit')) {
+			$brandid = $this->form_validation->set_rules('brandid', 'Brand ID', 'required');
 			$brand = $this->form_validation->set_rules('brand', 'Brand', 'required');
 			if ($this->form_validation->run() == FALSE) {
 				$this->brand_insert_form();
 			} else {
+				$brandid = $this->input->post('brandid');
 				$brand = $this->input->post('brand');
-				$ins = $this->Admin->brand_insert($brand);
+				$ins = $this->Admin->brand_insert($brandid, $brand);
 
 				if ($ins == TRUE) {
 					$this->session->set_flashdata('Successfully', 'Successfully Inserted');
@@ -1000,6 +1011,12 @@ class Dashboard extends CI_Controller
 			$this->load->view('admin/master_data/machine_inventory_insert_form', $data);
 		} elseif ($usertype == '2') {
 			$this->load->view('admin/master_data/factory_wise_machine_inventory_insert_form', $data);
+		} elseif ($usertype == '3') {
+			$this->load->view('admin/master_data/factory_wise_machine_inventory_insert_form', $data);
+		}elseif ($usertype == '4') {
+			$this->load->view('admin/master_data/factory_wise_machine_inventory_insert_form', $data);
+		}elseif ($usertype == '5') {
+			$this->load->view('admin/master_data/factory_wise_machine_inventory_insert_form', $data);
 		} else {
 			$this->load->view('error/error_404', $data);
 		}
@@ -1096,10 +1113,72 @@ class Dashboard extends CI_Controller
 		} elseif ($usertype == '3') {
 			$data['ul'] = $this->Admin->factory_wise_machine_inventory_list($factoryid);
 			$this->load->view('admin/master_data/factory_wise_machine_inventory_list', $data);
-		} else {
+		} elseif ($usertype == '4') {
+			$data['ul'] = $this->Admin->machine_inventory_list($factoryid);
+			$this->load->view('admin/master_data/machine_inventory_list', $data);
+		}elseif ($usertype == '5') {
+			$data['ul'] = $this->Admin->machine_inventory_list($factoryid);
+			$this->load->view('admin/master_data/machine_inventory_list', $data);
+		}else {
 			$this->load->view('error/error_404', $data);
 		}
 		$this->load->view('admin/footer');
+	}
+	public function machine_inventory_additional_info_insert_form()
+	{
+		$this->load->database();
+		$this->load->model('Admin');
+		$data['title'] = 'Machine Additional Info';
+		$this->load->view('admin/head', $data);
+		$this->load->view('admin/toprightnav');
+		$this->load->view('admin/leftmenu');
+		$this->load->view('admin/master_data/machine_inventory_additional_info_insert_form', $data);
+	}
+	public function machine_inventory_additional_info_insert()
+	{
+		$this->load->database();
+		$this->load->model('Admin');
+		if ($this->input->post('upload') != NULL) {
+			$data = array();
+			if (!empty($_FILES['file']['name'])) {
+				// Set preference 
+				$config['upload_path'] = 'assets/uploads/machine_inventory_additional_info/csv/';
+				$config['allowed_types'] = 'csv';
+				$config['max_size'] = '1000'; // max_size in kb 
+				$config['file_name'] = $_FILES['file']['name'];
+				// Load upload library 
+				$this->load->library('upload', $config);
+				// File upload
+				if ($this->upload->do_upload('file')) {
+					// Get data about the file
+					$uploadData = $this->upload->data();
+					$filename = $uploadData['file_name'];
+					// Reading file
+					$file = fopen("assets/uploads/machine_inventory_additional_info/csv/" . $filename, "r");
+					$i = 0;
+					$headerLine = true;
+					while (($filedata = fgetcsv($file, 1000, ",")) !== FALSE) {
+						$num = count($filedata);
+						if ($headerLine) {
+							$headerLine = false;
+						} else {
+							$data['macode'] = $filedata[0];
+							$data['manucode'] = $filedata[1];
+
+							$ins = $this->Admin->machine_inventory_additional_info_insert($data);
+							if ($ins == TRUE) {
+								$this->session->set_flashdata('Successfully', 'Successfully Inserted');
+							} else {
+								$this->session->set_flashdata('Successfully', 'Failed To Inserted');
+							}
+						}
+					}
+					$i++;
+					redirect('Dashboard/machine_inventory_additional_info_insert_form', 'refresh');
+				}
+				fclose($file);
+			}
+		}
 	}
 	public function machine_requisition_insert_form()
 	{
@@ -1120,6 +1199,12 @@ class Dashboard extends CI_Controller
 		if ($usertype == '1') {
 			$this->load->view('admin/master_data/machine_requisition_insert_form', $data);
 		} elseif ($usertype == '2') {
+			$this->load->view('admin/master_data/factory_wise_machine_requisition_insert_form', $data);
+		} elseif ($usertype == '3') {
+			$this->load->view('admin/master_data/factory_wise_machine_requisition_insert_form', $data);
+		}elseif ($usertype == '4') {
+			$this->load->view('admin/master_data/factory_wise_machine_requisition_insert_form', $data);
+		}elseif ($usertype == '5') {
 			$this->load->view('admin/master_data/factory_wise_machine_requisition_insert_form', $data);
 		} else {
 			$this->load->view('error/error_404', $data);
@@ -1209,7 +1294,7 @@ class Dashboard extends CI_Controller
 			echo  "error";
 		}
 	}
-	
+
 	public function machine_rent_insert_form()
 	{
 		$this->load->database();
@@ -1354,6 +1439,16 @@ class Dashboard extends CI_Controller
 			$data['ul1'] = $this->Admin->date_wise_factory_wise_machine_transfer_list_id($factoryid, $pd, $wd);
 			$this->load->view('admin/master_data/date_wise_machine_transfer_list', $data);
 		}
+		if ($usertype == '4') {
+			$data['ul'] = $this->Admin->date_wise_machine_transfer_list($pd, $wd);
+			$data['ul1'] = $this->Admin->date_wise_machine_transfer_list_id($pd, $wd);
+			$this->load->view('admin/master_data/date_wise_machine_transfer_list', $data);
+		}
+		if ($usertype == '5') {
+			$data['ul'] = $this->Admin->date_wise_machine_transfer_list($pd, $wd);
+			$data['ul1'] = $this->Admin->date_wise_machine_transfer_list_id($pd, $wd);
+			$this->load->view('admin/master_data/date_wise_machine_transfer_list', $data);
+		}
 	}
 	public function date_wise_machine_rent_list_form()
 	{
@@ -1388,6 +1483,16 @@ class Dashboard extends CI_Controller
 		if ($usertype == '3') {
 			$data['ul'] = $this->Admin->date_wise_factory_wise_machine_rent_list($factoryid, $pd, $wd);
 			$data['ul1'] = $this->Admin->date_wise_factory_wise_machine_rent_list_id($factoryid, $pd, $wd);
+			$this->load->view('admin/master_data/date_wise_machine_rent_list', $data);
+		}
+		if ($usertype == '4') {
+			$data['ul'] = $this->Admin->date_wise_machine_rent_list($pd, $wd);
+			$data['ul1'] = $this->Admin->date_wise_machine_rent_list_id($pd, $wd);
+			$this->load->view('admin/master_data/date_wise_machine_rent_list', $data);
+		}
+		if ($usertype == '5') {
+			$data['ul'] = $this->Admin->date_wise_machine_rent_list($pd, $wd);
+			$data['ul1'] = $this->Admin->date_wise_machine_rent_list_id($pd, $wd);
 			$this->load->view('admin/master_data/date_wise_machine_rent_list', $data);
 		}
 	}
@@ -1607,6 +1712,14 @@ class Dashboard extends CI_Controller
 			$data['ul'] = $this->Admin->factory_not_own_list($factoryid);
 			$data['pl'] = $this->Admin->machine_purpose_list();
 			$this->load->view('admin/master_data/factory_wise_multiple_machine_rent_insert_form', $data);
+		}elseif ($usertype == '4') {
+			$data['ul'] = $this->Admin->factory_not_own_list($factoryid);
+			$data['pl'] = $this->Admin->machine_purpose_list();
+			$this->load->view('admin/master_data/factory_wise_multiple_machine_rent_insert_form', $data);
+		}elseif ($usertype == '5') {
+			$data['ul'] = $this->Admin->factory_not_own_list($factoryid);
+			$data['pl'] = $this->Admin->machine_purpose_list();
+			$this->load->view('admin/master_data/factory_wise_multiple_machine_rent_insert_form', $data);
 		} else {
 			$this->load->view('error/error_404', $data);
 		}
@@ -1713,6 +1826,12 @@ class Dashboard extends CI_Controller
 		} elseif ($usertype == '3') {
 			$data['ul'] = $this->Admin->factory_wise_machine_rent_list($factoryid);
 			$this->load->view('admin/master_data/factory_wise_multiple_machine_rent_return_insert_form', $data);
+		}elseif ($usertype == '4') {
+			$data['ul'] = $this->Admin->factory_wise_machine_rent_list($factoryid);
+			$this->load->view('admin/master_data/factory_wise_multiple_machine_rent_return_insert_form', $data);
+		}elseif ($usertype == '5') {
+			$data['ul'] = $this->Admin->factory_wise_machine_rent_list($factoryid);
+			$this->load->view('admin/master_data/factory_wise_multiple_machine_rent_return_insert_form', $data);
 		} else {
 			$this->load->view('error/error_404', $data);
 		}
@@ -1776,6 +1895,12 @@ class Dashboard extends CI_Controller
 		} elseif ($usertype == '3') {
 			$data['ul'] = $this->Admin->factory_wise_machine_intransit_list($factoryid);
 			$this->load->view('admin/master_data/factory_wise_multiple_machine_intransit_insert_form', $data);
+		}elseif ($usertype == '4') {
+			$data['ul'] = $this->Admin->factory_wise_machine_intransit_list($factoryid);
+			$this->load->view('admin/master_data/factory_wise_multiple_machine_intransit_insert_form', $data);
+		}elseif ($usertype == '5') {
+			$data['ul'] = $this->Admin->factory_wise_machine_intransit_list($factoryid);
+			$this->load->view('admin/master_data/factory_wise_multiple_machine_intransit_insert_form', $data);
 		} else {
 			$this->load->view('error/error_404', $data);
 		}
@@ -1833,6 +1958,12 @@ class Dashboard extends CI_Controller
 			$this->load->view('admin/master_data/sewing_floor_insert_form', $data);
 		} elseif ($usertype == '2') {
 			$this->load->view('admin/master_data/factory_wise_sewing_floor_insert_form', $data);
+		} elseif ($usertype == '3') {
+			$this->load->view('admin/master_data/factory_wise_sewing_floor_insert_form', $data);
+		}elseif ($usertype == '4') {
+			$this->load->view('admin/master_data/factory_wise_sewing_floor_insert_form', $data);
+		}elseif ($usertype == '5') {
+			$this->load->view('admin/master_data/factory_wise_sewing_floor_insert_form', $data);
 		} else {
 			$this->load->view('error/error_404', $data);
 		}
@@ -1878,6 +2009,18 @@ class Dashboard extends CI_Controller
 			$factoryid = $this->session->userdata('factoryid');
 			$data['ul'] = $this->Admin->factory_wise_sewing_floor_list($factoryid);
 			$this->load->view('admin/master_data/factory_wise_sewing_floor_list', $data);
+		} elseif ($usertype == '3') {
+			$factoryid = $this->session->userdata('factoryid');
+			$data['ul'] = $this->Admin->factory_wise_sewing_floor_list($factoryid);
+			$this->load->view('admin/master_data/factory_wise_sewing_floor_list', $data);
+		}elseif ($usertype == '4') {
+			$factoryid = $this->session->userdata('factoryid');
+			$data['ul'] = $this->Admin->factory_wise_sewing_floor_list($factoryid);
+			$this->load->view('admin/master_data/factory_wise_sewing_floor_list', $data);
+		}elseif ($usertype == '5') {
+			$factoryid = $this->session->userdata('factoryid');
+			$data['ul'] = $this->Admin->factory_wise_sewing_floor_list($factoryid);
+			$this->load->view('admin/master_data/factory_wise_sewing_floor_list', $data);
 		} else {
 			$this->load->view('error/error_404', $data);
 		}
@@ -1900,6 +2043,9 @@ class Dashboard extends CI_Controller
 			$data['ul'] = $this->Admin->factory_list();
 			$this->load->view('admin/master_data/sewing_line_insert_form', $data);
 		} elseif ($usertype == '2') {
+			$data['ul'] = $this->Admin->factory_wise_sewing_floor_list($factoryid);
+			$this->load->view('admin/master_data/factory_wise_sewing_line_insert_form', $data);
+		} elseif ($usertype == '3') {
 			$data['ul'] = $this->Admin->factory_wise_sewing_floor_list($factoryid);
 			$this->load->view('admin/master_data/factory_wise_sewing_line_insert_form', $data);
 		} else {
@@ -1958,6 +2104,18 @@ class Dashboard extends CI_Controller
 			$cfactoryid = $this->session->userdata('factoryid');
 			$data['ul'] = $this->Admin->show_factory_wise_sewing_line($cfactoryid);
 			$this->load->view('admin/master_data/factory_wise_sewing_line_list', $data);
+		} elseif ($usertype == '3') {
+			$cfactoryid = $this->session->userdata('factoryid');
+			$data['ul'] = $this->Admin->show_factory_wise_sewing_line($cfactoryid);
+			$this->load->view('admin/master_data/factory_wise_sewing_line_list', $data);
+		}elseif ($usertype == '4') {
+			$cfactoryid = $this->session->userdata('factoryid');
+			$data['ul'] = $this->Admin->show_factory_wise_sewing_line($cfactoryid);
+			$this->load->view('admin/master_data/factory_wise_sewing_line_list', $data);
+		}elseif ($usertype == '5') {
+			$cfactoryid = $this->session->userdata('factoryid');
+			$data['ul'] = $this->Admin->show_factory_wise_sewing_line($cfactoryid);
+			$this->load->view('admin/master_data/factory_wise_sewing_line_list', $data);
 		} else {
 			$this->load->view('error/error_404', $data);
 		}
@@ -1979,6 +2137,15 @@ class Dashboard extends CI_Controller
 			$data['ul'] = $this->Admin->factory_list();
 			$this->load->view('admin/master_data/multiple_sewing_line_insert_form', $data);
 		} elseif ($usertype == '2') {
+			$data['ul'] = $this->Admin->show_factory_wise_sewing_floor($factoryid);
+			$this->load->view('admin/master_data/factory_wise_multiple_sewing_line_insert_form', $data);
+		} elseif ($usertype == '3') {
+			$data['ul'] = $this->Admin->show_factory_wise_sewing_floor($factoryid);
+			$this->load->view('admin/master_data/factory_wise_multiple_sewing_line_insert_form', $data);
+		}elseif ($usertype == '4') {
+			$data['ul'] = $this->Admin->show_factory_wise_sewing_floor($factoryid);
+			$this->load->view('admin/master_data/factory_wise_multiple_sewing_line_insert_form', $data);
+		}elseif ($usertype == '5') {
 			$data['ul'] = $this->Admin->show_factory_wise_sewing_floor($factoryid);
 			$this->load->view('admin/master_data/factory_wise_multiple_sewing_line_insert_form', $data);
 		} else {
@@ -2046,6 +2213,16 @@ class Dashboard extends CI_Controller
 			$data['pl'] = $this->Admin->machine_purpose_list();
 			$data['sl'] = $this->Admin->show_factory_wise_sewing_line($cfactoryid);
 			$this->load->view('admin/master_data/factory_wise_multiple_machine_line_allocate_insert_form', $data);
+		}elseif ($usertype == '4') {
+			$data['ul'] = $this->Admin->factory_list();
+			$data['pl'] = $this->Admin->machine_purpose_list();
+			$data['sl'] = $this->Admin->show_factory_wise_sewing_line($cfactoryid);
+			$this->load->view('admin/master_data/factory_wise_multiple_machine_line_allocate_insert_form', $data);
+		}elseif ($usertype == '5') {
+			$data['ul'] = $this->Admin->factory_list();
+			$data['pl'] = $this->Admin->machine_purpose_list();
+			$data['sl'] = $this->Admin->show_factory_wise_sewing_line($cfactoryid);
+			$this->load->view('admin/master_data/factory_wise_multiple_machine_line_allocate_insert_form', $data);
 		} else {
 			$this->load->view('error/error_404', $data);
 		}
@@ -2106,6 +2283,14 @@ class Dashboard extends CI_Controller
 		}
 		if ($usertype == '3') {
 			$data['ul'] = $this->Admin->date_wise_factory_wise_machine_repair_list($factoryid, $pd, $wd);
+			$this->load->view('admin/master_data/date_wise_machine_repair_list', $data);
+		}
+		if ($usertype == '4') {
+			$data['ul'] = $this->Admin->date_wise_machine_repair_list($pd, $wd);
+			$this->load->view('admin/master_data/date_wise_machine_repair_list', $data);
+		}
+		if ($usertype == '5') {
+			$data['ul'] = $this->Admin->date_wise_machine_repair_list($pd, $wd);
 			$this->load->view('admin/master_data/date_wise_machine_repair_list', $data);
 		}
 	}
@@ -2186,6 +2371,12 @@ class Dashboard extends CI_Controller
 		} elseif ($usertype == '3') {
 			$data['ul'] = $this->Admin->factory_wise_machine_line_allocate_list($factoryid);
 			$this->load->view('admin/master_data/factory_wise_multiple_machine_line_allocate_return_insert_form', $data);
+		}elseif ($usertype == '4') {
+			$data['ul'] = $this->Admin->factory_wise_machine_line_allocate_list($factoryid);
+			$this->load->view('admin/master_data/factory_wise_multiple_machine_line_allocate_return_insert_form', $data);
+		}elseif ($usertype == '5') {
+			$data['ul'] = $this->Admin->factory_wise_machine_line_allocate_list($factoryid);
+			$this->load->view('admin/master_data/factory_wise_multiple_machine_line_allocate_return_insert_form', $data);
 		} else {
 			$this->load->view('error/error_404', $data);
 		}
@@ -2258,6 +2449,16 @@ class Dashboard extends CI_Controller
 			$data['sl'] = $this->Admin->show_factory_wise_sewing_line($cfactoryid);
 			$this->load->view('admin/master_data/factory_wise_multiple_machine_repair_insert_form', $data);
 		} elseif ($usertype == '3') {
+			$data['ul'] = $this->Admin->factory_list();
+			$data['pl'] = $this->Admin->machine_purpose_list();
+			$data['sl'] = $this->Admin->show_factory_wise_sewing_line($cfactoryid);
+			$this->load->view('admin/master_data/factory_wise_multiple_machine_repair_insert_form', $data);
+		}elseif ($usertype == '4') {
+			$data['ul'] = $this->Admin->factory_list();
+			$data['pl'] = $this->Admin->machine_purpose_list();
+			$data['sl'] = $this->Admin->show_factory_wise_sewing_line($cfactoryid);
+			$this->load->view('admin/master_data/factory_wise_multiple_machine_repair_insert_form', $data);
+		}elseif ($usertype == '5') {
 			$data['ul'] = $this->Admin->factory_list();
 			$data['pl'] = $this->Admin->machine_purpose_list();
 			$data['sl'] = $this->Admin->show_factory_wise_sewing_line($cfactoryid);
@@ -2343,6 +2544,12 @@ class Dashboard extends CI_Controller
 		} elseif ($usertype == '3') {
 			$data['ul'] = $this->Admin->factory_wise_machine_running_rapair_list($factoryid);
 			$this->load->view('admin/master_data/factory_wise_multiple_machine_repair_return_insert_form', $data);
+		}elseif ($usertype == '4') {
+			$data['ul'] = $this->Admin->factory_wise_machine_running_rapair_list($factoryid);
+			$this->load->view('admin/master_data/factory_wise_multiple_machine_repair_return_insert_form', $data);
+		}elseif ($usertype == '5') {
+			$data['ul'] = $this->Admin->factory_wise_machine_running_rapair_list($factoryid);
+			$this->load->view('admin/master_data/factory_wise_multiple_machine_repair_return_insert_form', $data);
 		} else {
 			$this->load->view('error/error_404', $data);
 		}
@@ -2406,6 +2613,14 @@ class Dashboard extends CI_Controller
 			$data['pl'] = $this->Admin->machine_purpose_list();
 			$this->load->view('admin/master_data/factory_wise_multiple_machine_disposal_insert_form', $data);
 		} elseif ($usertype == '3') {
+			$data['ul'] = $this->Admin->factory_list();
+			$data['pl'] = $this->Admin->machine_purpose_list();
+			$this->load->view('admin/master_data/factory_wise_multiple_machine_disposal_insert_form', $data);
+		}elseif ($usertype == '4') {
+			$data['ul'] = $this->Admin->factory_list();
+			$data['pl'] = $this->Admin->machine_purpose_list();
+			$this->load->view('admin/master_data/factory_wise_multiple_machine_disposal_insert_form', $data);
+		}elseif ($usertype == '5') {
 			$data['ul'] = $this->Admin->factory_list();
 			$data['pl'] = $this->Admin->machine_purpose_list();
 			$this->load->view('admin/master_data/factory_wise_multiple_machine_disposal_insert_form', $data);
@@ -2481,6 +2696,14 @@ class Dashboard extends CI_Controller
 			$data['pl'] = $this->Admin->machine_purpose_list();
 			$this->load->view('admin/master_data/factory_wise_multiple_machine_sell_insert_form', $data);
 		} elseif ($usertype == '3') {
+			$data['ul'] = $this->Admin->factory_not_own_list($factoryid);
+			$data['pl'] = $this->Admin->machine_purpose_list();
+			$this->load->view('admin/master_data/factory_wise_multiple_machine_sell_insert_form', $data);
+		}elseif ($usertype == '4') {
+			$data['ul'] = $this->Admin->factory_not_own_list($factoryid);
+			$data['pl'] = $this->Admin->machine_purpose_list();
+			$this->load->view('admin/master_data/factory_wise_multiple_machine_sell_insert_form', $data);
+		}elseif ($usertype == '5') {
 			$data['ul'] = $this->Admin->factory_not_own_list($factoryid);
 			$data['pl'] = $this->Admin->machine_purpose_list();
 			$this->load->view('admin/master_data/factory_wise_multiple_machine_sell_insert_form', $data);
@@ -2575,11 +2798,69 @@ class Dashboard extends CI_Controller
 			$data['ul'] = $this->Admin->factory_wise_machine_running_line_list($factoryid);
 			$this->load->view('admin/master_data/factory_wise_machine_running_line_list', $data);
 		} elseif ($usertype == '3') {
-			$data['ul'] = $this->Admin->factory_wise_machine_running_list($factoryid);
+			$data['ul'] = $this->Admin->factory_wise_machine_running_line_list($factoryid);
 			$this->load->view('admin/master_data/factory_wise_machine_running_line_list', $data);
+		}elseif ($usertype == '4') {
+			$data['ul'] = $this->Admin->machine_running_line_list($factoryid);
+			$this->load->view('admin/master_data/machine_running_line_list', $data);
+		}elseif ($usertype == '5') {
+			$data['ul'] = $this->Admin->machine_running_line_list($factoryid);
+			$this->load->view('admin/master_data/machine_running_line_list', $data);
 		} else {
 			$this->load->view('error/error_404', $data);
 		}
 		$this->load->view('admin/footer');
+	}
+	public function machine_assetcode_print_form()
+	{
+		$this->load->database();
+		$this->load->model('Admin');
+		$data['title'] = 'Machine Asset Code Print';
+		$this->load->view('admin/head', $data);
+		$this->load->view('admin/toprightnav');
+		$this->load->view('admin/leftmenu');
+		$usertype = $this->session->userdata('user_type');
+		//$factoryid = $this->session->userdata('factoryid');
+		$data['fl'] = $this->Admin->factory_list();
+		$data['ul'] = $this->Admin->machine_purpose_list();
+		$data['tl'] = $this->Admin->machine_type_list();
+		$data['bl'] = $this->Admin->brand_list();
+		$data['sl'] = $this->Admin->supplier_list();
+
+		if ($usertype == '1') {
+			$this->load->view('admin/master_data/machine_assetcode_print_form', $data);
+		} elseif ($usertype == '2') {
+			$this->load->view('admin/master_data/factory_wise_machine_assetcode_print_form', $data);
+		} elseif ($usertype == '3') {
+			$this->load->view('admin/master_data/factory_wise_machine_assetcode_print_form', $data);
+		} 
+		elseif ($usertype == '4') {
+			$this->load->view('admin/master_data/factory_wise_machine_assetcode_print_form', $data);
+		}
+		elseif ($usertype == '5') {
+			$this->load->view('admin/master_data/factory_wise_machine_assetcode_print_form', $data);
+		}else {
+			$this->load->view('error/error_404', $data);
+		}
+
+		$this->load->view('admin/footer');
+	}
+	public function machine_assetcode_print()
+	{
+		$this->load->database();
+		$this->load->model('Admin');
+		$factoryid = $this->input->post('factoryid');
+		$mpid = $this->input->post('mpid');
+		$mcode = $this->input->post('mcode');
+		$mtid = $this->input->post('mtid');
+		
+		$data['ul'] = $this->Admin->machine_assetcode_print($factoryid, $mcode, $mtid);
+		$this->load->view('admin/master_data/machine_assetcode_print', $data);
+	}
+	public function show_barcode($barcode)
+	{
+			$this->load->library('zend');
+ 			$this->zend->load('Zend/Barcode');
+			Zend_Barcode::render('code128', 'image', array('text'=>$barcode,'barHeight' => 20), array());
 	}
 }

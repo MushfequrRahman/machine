@@ -110,12 +110,12 @@
                         </div>
                         <div class="col-md-2">
                           <label>Purchase Date<em>*</em></label>
-                          <input type="text" class="form-control pd" readonly name="pdate" value="<?php echo date('d-m-Y'); ?>">
+                          <input type="text" class="form-control pd" name="pdate" value="<?php echo date('d-m-Y'); ?>">
                           <?php /*?><?php echo form_error('dobdate', '<div class="error">', '</div>');  ?><?php */ ?>
                         </div>
                         <div class="col-md-2">
                           <label>Price<em>*</em></label>
-                          <input type="text" class="form-control price" name="price" placeholder="Enter Price">
+                          <input type="text" class="form-control price" name="price" placeholder="Enter Unit Price">
                           <?php echo form_error('price', '<div class="error">', '</div>');  ?>
                         </div>
                         <div class="col-md-2">
