@@ -204,6 +204,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								<li><a href="<?php echo base_url(); ?>Dashboard/date_wise_machine_repair_list_form"><i class="fa fa-circle-o"></i>Machine Repair List</a></li>
 								<!-- <li><a href="<?php echo base_url(); ?>Dashboard/multiple_machine_disposal_insert_form"><i class="fa fa-circle-o"></i>Add Machine Disposal</a></li> -->
 								<!-- <li><a href="<?php echo base_url(); ?>Dashboard/multiple_machine_sell_insert_form"><i class="fa fa-circle-o"></i>Add Machine Sell</a></li> -->
+								<li><a href="<?php echo base_url(); ?>Dashboard/machine_disposal_list"><i class="fa fa-circle-o"></i>Machine Disposal List</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -615,11 +616,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			<?php //endif;
 			?>
 		</ul>
-
-
-
-
-
 
 	</section>
 </aside>

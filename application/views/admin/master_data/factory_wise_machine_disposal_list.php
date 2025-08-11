@@ -85,7 +85,7 @@
       XLSX.utils.book_append_sheet(wb, ws, "Selected Rows");
 
       // Export the Excel file
-      XLSX.writeFile(wb, 'machine_disposal.xlsx');
+      XLSX.writeFile(wb, 'machine_inventory.xlsx');
     });
   });
 </script>
@@ -100,7 +100,7 @@
               <div class="col-md-12">
                 <div class="box box-danger">
                   <div class="box-header with-border">
-                    <h3 class="box-title">Machine Disposal List</h3>
+                    <h3 class="box-title">Machine Inventory List</h3>
                     <div class="row">
                       <div class="col-sm-12 col-md-12 col-lg-12">
                         <?php if ($responce = $this->session->flashdata('Successfully')): ?>
@@ -155,9 +155,14 @@
                             <th title="Perchase Date" data-column="16"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="17" checked><strong>P.Date</strong></label></th>
                             <th title="Warranty Period" data-column="17"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="18" checked><strong>Warranty</strong></label></th>
                             <th title="End Date" data-column="18"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="19" checked><strong>E.Date</strong></label></th>
-                            <th title="Disposal Date" data-column="19"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="20" checked><strong>D.Date</strong></label></th>
+                            <th title="Remaining Day" data-column="19"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="20" checked><strong>Remaining</strong></label></th>
                             <th title="Machine Description" data-column="20"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="21" checked><strong>M.Description</strong></label></th>
                             <th title="Machine Status" data-column="21"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="22" checked><strong>Status</strong></label></th>
+                            <th title="Rent Date" data-column="22"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="23" checked><strong>R.Date</strong></label></th>
+                            <th title="Rent Days" data-column="23"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="24" checked><strong>R.Days</strong></label></th>
+                            <th title="Return Date" data-column="24"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="25" checked><strong>Ret.Date</strong></label></th>
+                            <!-- <th data-column="24"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="25" checked><strong>Rent.Log</strong></label></th>
+                            <th data-column="25"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="26" checked><strong>Repair.Log</strong></label></th> -->
                           </tr>
                         </thead>
                         <tfoot>
@@ -184,7 +189,11 @@
                             <th>&nbsp;</th>
                             <th>&nbsp;</th>
                             <th>&nbsp;</th>
-
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                            <!-- <th>&nbsp;</th>
+                            <th>&nbsp;</th> -->
                           </tr>
                         </tfoot>
                         <tbody>
@@ -223,11 +232,69 @@
                               <td style="vertical-align:middle;"><?php echo $years . ' years - ' . $month . ' month - ' . $days . ' days'; ?></td>
                               <?php $enddate = date("d-m-Y", strtotime("+" . $row['warranty'] . " days", strtotime($row['pdate']))); ?>
                               <td style="vertical-align:middle;"><?php echo $enddate; ?></td>
-                              <td style="vertical-align:middle;"><?php echo date("d-m-Y", strtotime($row['ddate'])); ?></td>
+                              <?php
+                              $now = time(); // or your date as well
+                              $enddate = strtotime($enddate);
+                              $datediff = $enddate - $now;
+                              $remain = round($datediff / (60 * 60 * 24));
+                              ?>
+                              <td style="vertical-align:middle;"><?php echo $remain; ?></td>
                               <td style="vertical-align:middle;"><?php echo $row['description']; ?></td>
-                              <td style="vertical-align:middle;">Disposal</td>
-
-
+                              <?php
+                              if (($row['pfactoryid'] == $row['cfactoryid']) && $row['mistatus'] == '0') {
+                              ?>
+                                <td style="vertical-align:middle;">Free</td>
+                              <?php
+                              } elseif (($this->session->userdata('factoryid') == $row['cfactoryid']) && $row['mistatus'] == '1') {
+                              ?>
+                                <td style="vertical-align:middle;">Rent</td>
+                              <?php
+                              } elseif (($row['pfactoryid'] != $row['cfactoryid']) && $row['mistatus'] == '1') {
+                              ?>
+                                <td style="vertical-align:middle;">Transferred</td>
+                              <?php
+                              } elseif (($row['pfactoryid'] == $row['cfactoryid']) && $row['mistatus'] == '2') {
+                              ?>
+                                <td style="vertical-align:middle;">Line</td>
+                              <?php
+                              } elseif (($row['pfactoryid'] != $row['cfactoryid']) && $row['mistatus'] == '2') {
+                              ?>
+                                <td style="vertical-align:middle;">TF_Line_Using</td>
+                              <?php
+                              } 
+                              
+                              elseif (($row['pfactoryid'] == $row['cfactoryid']) && $row['mistatus'] == '3') {
+                                ?>
+                                  <td style="vertical-align:middle;">Repairing</td>
+                                <?php
+                                } elseif (($row['pfactoryid'] != $row['cfactoryid']) && $row['mistatus'] == '3') {
+                                ?>
+                                  <td style="vertical-align:middle;">TF_Repairing</td>
+                                <?php
+                                }
+                              else {
+                              ?>
+                                <td style="vertical-align:middle;">Others</td>
+                              <?php
+                              }
+                              ?>
+                              <?php
+                              if (($row['pfactoryid'] != $row['cfactoryid']) && $row['mistatus']!='3' && $row['rentdate']!=='0000-00-00') {
+                              ?>
+                                <td style="vertical-align:middle;"><?php echo date("d-m-Y", strtotime($row['rentdate'])); ?></td>
+                                <td style="vertical-align:middle;"><?php echo $row['rentdays']; ?></td>
+                                <td style="vertical-align:middle;"><?php echo date("d-m-Y", strtotime("+" . $row['rentdays'] . " days", strtotime($row['rentdate']))); ?></td>
+                              <?php
+                              } else {
+                              ?>
+                                <td style="vertical-align:middle;"></td>
+                                <td style="vertical-align:middle;"></td>
+                                <td style="vertical-align:middle;"></td>
+                              <?php
+                              }
+                              ?>
+                              <!-- <td style="vertical-align:middle;"><a href="<?php echo base_url(); ?>Dashboard/single_machine_rent_list/<?php echo $row['rminvid']; ?>">Rent Log</a></td>
+                              <td style="vertical-align:middle;"><a href="<?php echo base_url(); ?>Dashboard/single_machine_repair_list/<?php echo $row['rminvid']; ?>">Repair Log</a></td> -->
                             </tr>
                           <?php } ?>
                         </tbody>
@@ -242,3 +309,5 @@
       </section>
     </div>
   </div>
+
+  

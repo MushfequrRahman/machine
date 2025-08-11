@@ -1767,6 +1767,54 @@ class Admin extends CI_Model
 		$query = $this->db->query($sql);
 		return $query1 = $this->db->query($sql1);
 	}
+	public function machine_disposal_list()
+	{
+
+		$query = "SELECT factoryname,pfactoryid,(machine_disposal_insert.cfactoryid) AS cfactoryid,
+		mpurpose,(machine_name.mcode) AS mcode,
+		(machine_disposal_insert.minvid) AS minvid,machine_inventory.rminvid,(machine_inventory.macode) AS macode,
+		manucode,mname,minfo,model,mtype,brandname,supplier,price,miqty,
+		pdate,warranty,description,mistatus,rentdays,rentdate,ddate
+
+		FROM machine_inventory
+		JOIN model_name ON model_name.monid=machine_inventory.monid
+		JOIN machine_type ON machine_type.mtid=machine_inventory.mtid
+		JOIN factory ON factory.factoryid=machine_inventory.pfactoryid
+		JOIN supplier_insert ON supplier_insert.supplierid=machine_inventory.supplierid
+		JOIN brand_insert ON brand_insert.brandid=machine_inventory.brandid
+		JOIN machine_name ON machine_name.mcode=model_name.mcode
+		JOIN machine_purpose ON machine_purpose.mpid=machine_name.mpid
+		JOIN machine_asset_code ON machine_asset_code.macode = machine_inventory.macode
+		JOIN machine_disposal_insert ON machine_disposal_insert.macode = machine_inventory.macode
+		WHERE machine_inventory.mistatus='6'
+		ORDER BY mafid,machine_asset_code.mcode,machine_asset_code.mtid,midnum ASC";
+		$result = $this->db->query($query);
+		return $result->result_array();
+	}
+	public function factory_wise_machine_disposal_list($factoryid)
+	{
+
+		$query = "SELECT factoryname,pfactoryid,(machine_disposal_insert.cfactoryid) AS cfactoryid,
+		mpurpose,(machine_name.mcode) AS mcode,
+		(machine_disposal_insert.minvid) AS minvid,machine_inventory.rminvid,(machine_inventory.macode) AS macode,
+		manucode,mname,minfo,model,mtype,brandname,supplier,price,miqty,
+		pdate,warranty,description,mistatus,rentdays,rentdate,ddate
+
+		FROM machine_inventory
+		JOIN model_name ON model_name.monid=machine_inventory.monid
+		JOIN machine_type ON machine_type.mtid=machine_inventory.mtid
+		JOIN factory ON factory.factoryid=machine_inventory.pfactoryid
+		JOIN supplier_insert ON supplier_insert.supplierid=machine_inventory.supplierid
+		JOIN brand_insert ON brand_insert.brandid=machine_inventory.brandid
+		JOIN machine_name ON machine_name.mcode=model_name.mcode
+		JOIN machine_purpose ON machine_purpose.mpid=machine_name.mpid
+		JOIN machine_asset_code ON machine_asset_code.macode = machine_inventory.macode
+		JOIN machine_disposal_insert ON machine_disposal_insert.macode = machine_inventory.macode
+		WHERE machine_inventory.mistatus='6' AND machine_disposal_insert.cfactoryid='$factoryid'
+		ORDER BY mafid,machine_asset_code.mcode,machine_asset_code.mtid,midnum ASC";
+		$result = $this->db->query($query);
+		return $result->result_array();
+	}
 	public function multiple_machine_sell_insert($data)
 	{
 		date_default_timezone_set('Asia/Dhaka');
