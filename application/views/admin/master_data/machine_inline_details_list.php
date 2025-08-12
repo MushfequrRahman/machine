@@ -85,7 +85,7 @@
       XLSX.utils.book_append_sheet(wb, ws, "Selected Rows");
 
       // Export the Excel file
-      XLSX.writeFile(wb, 'machine_running.xlsx');
+      XLSX.writeFile(wb, 'machine_inline_details_list.xlsx');
     });
   });
 </script>
@@ -121,7 +121,7 @@
                       <div class="col-md-12">
                         <div class="col-md-6">
                           <div class="float-left">
-                            <a href="<?php echo base_url(); ?>Dashboard/machine_inline_details_list">Details List</a>
+                            <!-- <a href="<?php echo base_url(); ?>Dashboard/machine_inline_details_list">Details List</a> -->
                           </div>
                         </div>
                         <div class="col-md-6">
@@ -144,7 +144,7 @@
                             <th title="Machine Type" data-column="5"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="6" checked><strong>Machine Type</strong></label></th>
                             <th title="Floor Name" data-column="6"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="7" checked><strong>Floor Name</strong></label></th>
                             <th title="Line" data-column="7"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="8" checked><strong>Line</strong></label></th>
-                            <th title="Number" data-column="8"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="9" checked><strong>Number</strong></label></th>
+                            <th title="Asset Code" data-column="8"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="9" checked><strong>Asset Code</strong></label></th>
                           </tr>
                         </thead>
                         <tfoot>
@@ -157,7 +157,8 @@
                             <th>&nbsp;</th>
                             <th>&nbsp;</th>
                             <th>&nbsp;</th>
-                            <th data-math="col-sum">col-sum</th>
+                            <th>&nbsp;</th>
+                            <!-- <th data-math="col-sum">col-sum</th> -->
                           </tr>
                         </tfoot>
                         <tbody>
@@ -173,7 +174,7 @@
                               <td style="vertical-align:middle;"><?php echo $row['mtype']; ?></td>
                               <td style="vertical-align:middle;"><?php echo $row['sfname']; ?></td>
                               <td style="vertical-align:middle;"><?php echo $row['slname']; ?></td>
-                              <td style="vertical-align:middle;"><?php echo $row['nmcode']; ?></td>
+                              <td style="vertical-align:middle;"><?php echo $row['macode']; ?></td>
                             </tr>
                           <?php } ?>
                         </tbody>

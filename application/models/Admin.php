@@ -1861,6 +1861,31 @@ class Admin extends CI_Model
 		}
 		return $query;
 	}
+	
+	public function machine_running_line_list()
+	{
+		$query = "SELECT afactoryid,
+		mpurpose,(machine_name.mcode) AS mcode,
+		machine_allocate_to_line.minvid,machine_purpose.mpid,machine_type.mtid,
+		mname,model,mtype,sewing_line_insert.slnid,slname,sfname,COUNT(machine_name.mcode) AS nmcode
+		
+		FROM machine_inventory
+		JOIN model_name ON model_name.monid=machine_inventory.monid
+		JOIN machine_type ON machine_type.mtid=machine_inventory.mtid
+		
+		JOIN supplier_insert ON supplier_insert.supplierid=machine_inventory.supplierid
+		JOIN brand_insert ON brand_insert.brandid=machine_inventory.brandid
+		JOIN machine_name ON machine_name.mcode=model_name.mcode
+		JOIN machine_purpose ON machine_purpose.mpid=machine_name.mpid
+		JOIN machine_allocate_to_line ON machine_allocate_to_line.minvid= machine_inventory.minvid
+		JOIN sewing_line_insert ON sewing_line_insert.slnid= machine_allocate_to_line.slnid
+		JOIN sewing_floor_insert ON sewing_floor_insert.sfnid= sewing_line_insert.sfnid
+		WHERE machine_allocate_to_line.matlstatus = '1'
+		
+		GROUP BY afactoryid,machine_purpose.mpid,machine_type.mtid,mcode,sewing_line_insert.slnid";
+		$result = $this->db->query($query);
+		return $result->result_array();
+	}
 	public function factory_wise_machine_running_line_list($factoryid)
 	{
 		$query = "SELECT afactoryid,
@@ -1885,15 +1910,14 @@ class Admin extends CI_Model
 		$result = $this->db->query($query);
 		return $result->result_array();
 	}
-	public function machine_running_line_list()
+	public function machine_inline_details_list()
 	{
 		$query = "SELECT afactoryid,
 		mpurpose,(machine_name.mcode) AS mcode,
 		machine_allocate_to_line.minvid,machine_purpose.mpid,machine_type.mtid,
-		mname,model,mtype,sewing_line_insert.slnid,slname,sfname,COUNT(machine_name.mcode) AS nmcode
+		mname,model,mtype,sewing_line_insert.slnid,slname,sfname,
+		(machine_allocate_to_line.macode) AS macode
 		
-		
-
 		FROM machine_inventory
 		JOIN model_name ON model_name.monid=machine_inventory.monid
 		JOIN machine_type ON machine_type.mtid=machine_inventory.mtid
@@ -1905,9 +1929,30 @@ class Admin extends CI_Model
 		JOIN machine_allocate_to_line ON machine_allocate_to_line.minvid= machine_inventory.minvid
 		JOIN sewing_line_insert ON sewing_line_insert.slnid= machine_allocate_to_line.slnid
 		JOIN sewing_floor_insert ON sewing_floor_insert.sfnid= sewing_line_insert.sfnid
-		WHERE machine_allocate_to_line.matlstatus = '1'
+		WHERE machine_allocate_to_line.matlstatus = '1'";
+		$result = $this->db->query($query);
+		return $result->result_array();
+	}
+	public function factory_wise_machine_inline_details_list($factoryid)
+	{
+		$query = "SELECT afactoryid,
+		mpurpose,(machine_name.mcode) AS mcode,
+		machine_allocate_to_line.minvid,machine_purpose.mpid,machine_type.mtid,
+		mname,model,mtype,sewing_line_insert.slnid,slname,sfname,
+		(machine_allocate_to_line.macode) AS macode
 		
-		GROUP BY afactoryid,machine_purpose.mpid,machine_type.mtid,mcode,sewing_line_insert.slnid";
+		FROM machine_inventory
+		JOIN model_name ON model_name.monid=machine_inventory.monid
+		JOIN machine_type ON machine_type.mtid=machine_inventory.mtid
+		
+		JOIN supplier_insert ON supplier_insert.supplierid=machine_inventory.supplierid
+		JOIN brand_insert ON brand_insert.brandid=machine_inventory.brandid
+		JOIN machine_name ON machine_name.mcode=model_name.mcode
+		JOIN machine_purpose ON machine_purpose.mpid=machine_name.mpid
+		JOIN machine_allocate_to_line ON machine_allocate_to_line.minvid= machine_inventory.minvid
+		JOIN sewing_line_insert ON sewing_line_insert.slnid= machine_allocate_to_line.slnid
+		JOIN sewing_floor_insert ON sewing_floor_insert.sfnid= sewing_line_insert.sfnid
+		WHERE machine_allocate_to_line.matlstatus = '1' AND afactoryid='$factoryid'";
 		$result = $this->db->query($query);
 		return $result->result_array();
 	}

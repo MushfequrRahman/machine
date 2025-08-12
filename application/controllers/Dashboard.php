@@ -2833,11 +2833,43 @@ class Dashboard extends CI_Controller
 			$data['ul'] = $this->Admin->factory_wise_machine_running_line_list($factoryid);
 			$this->load->view('admin/master_data/factory_wise_machine_running_line_list', $data);
 		}elseif ($usertype == '4') {
-			$data['ul'] = $this->Admin->machine_running_line_list($factoryid);
+			$data['ul'] = $this->Admin->machine_running_line_list();
 			$this->load->view('admin/master_data/machine_running_line_list', $data);
 		}elseif ($usertype == '5') {
-			$data['ul'] = $this->Admin->machine_running_line_list($factoryid);
+			$data['ul'] = $this->Admin->machine_running_line_list();
 			$this->load->view('admin/master_data/machine_running_line_list', $data);
+		} else {
+			$this->load->view('error/error_404', $data);
+		}
+		$this->load->view('admin/footer');
+	}
+	public function machine_inline_details_list()
+	{
+		$this->load->database();
+		$this->load->model('Admin');
+		$usertype = $this->session->userdata('user_type');
+		$factoryid = $this->session->userdata('factoryid');
+		$data['title'] = 'Machine Running List';
+		$this->load->view('admin/head', $data);
+		$this->load->view('admin/toprightnav');
+		$this->load->view('admin/leftmenu');
+
+
+		if ($usertype == '1') {
+			$data['ul'] = $this->Admin->machine_inline_details_list();
+			$this->load->view('admin/master_data/machine_inline_details_list', $data);
+		} elseif ($usertype == '2') {
+			$data['ul'] = $this->Admin->factory_wise_machine_inline_details_list($factoryid);
+			$this->load->view('admin/master_data/factory_wise_machine_inline_details_list', $data);
+		} elseif ($usertype == '3') {
+			$data['ul'] = $this->Admin->factory_wise_machine_inline_details_list($factoryid);
+			$this->load->view('admin/master_data/factory_wise_machine_inline_details_list', $data);
+		}elseif ($usertype == '4') {
+			$data['ul'] = $this->Admin->machine_inline_details_list();
+			$this->load->view('admin/master_data/machine_inline_details_list', $data);
+		}elseif ($usertype == '5') {
+			$data['ul'] = $this->Admin->machine_inline_details_list();
+			$this->load->view('admin/master_data/machine_inline_details_list', $data);
 		} else {
 			$this->load->view('error/error_404', $data);
 		}
