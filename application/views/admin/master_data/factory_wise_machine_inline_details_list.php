@@ -145,11 +145,15 @@
                             <th title="Floor Name" data-column="6"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="7" checked><strong>Floor Name</strong></label></th>
                             <th title="Line" data-column="7"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="8" checked><strong>Line</strong></label></th>
                             <th title="Asset Code" data-column="8"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="9" checked><strong>Asset Code</strong></label></th>
+                            <th title="Allocate Date" data-column="9"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="10" checked><strong>Allocate Date</strong></label></th>
+                            <th title="Count Days" data-column="10"><label class="checkbox-inline"><input type="checkbox" class="column-select" data-col-index="11" checked><strong>Count Days</strong></label></th>
                           </tr>
                         </thead>
                         <tfoot>
                           <tr>
                             <th id="rowCount"></th>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
                             <th>&nbsp;</th>
                             <th>&nbsp;</th>
                             <th>&nbsp;</th>
@@ -175,6 +179,8 @@
                               <td style="vertical-align:middle;"><?php echo $row['sfname']; ?></td>
                               <td style="vertical-align:middle;"><?php echo $row['slname']; ?></td>
                               <td style="vertical-align:middle;"><?php echo $row['macode']; ?></td>
+                              <td style="vertical-align:middle;"><?php echo date("d-m-Y", strtotime($row['allocatedate'])); ?></td>
+                              <td style="vertical-align:middle;"><?php echo $row['cdays']; ?></td>
                             </tr>
                           <?php } ?>
                         </tbody>

@@ -1916,7 +1916,7 @@ class Admin extends CI_Model
 		mpurpose,(machine_name.mcode) AS mcode,
 		machine_allocate_to_line.minvid,machine_purpose.mpid,machine_type.mtid,
 		mname,model,mtype,sewing_line_insert.slnid,slname,sfname,
-		(machine_allocate_to_line.macode) AS macode
+		(machine_allocate_to_line.macode) AS macode,allocatedate,(DATEDIFF(CURDATE(),allocatedate)) AS cdays
 		
 		FROM machine_inventory
 		JOIN model_name ON model_name.monid=machine_inventory.monid
