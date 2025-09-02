@@ -26,16 +26,14 @@
                   </div>
                   <div class="box-body ">
                     <form role="form" autocomplete="off" action="<?php echo base_url(); ?>Dashboard/multiple_machine_disposal_insert" method="post" enctype="multipart/form-data">
+                      <!-- <input type="hidden" class="form-control" name="minvid" value="<?php echo $minvid; ?>">
+                      <input type="hidden" class="form-control" name="macode" value="<?php echo $macode; ?>">
+                      <input type="hidden" class="form-control" name="rminvid" value="<?php echo $rminvid; ?>">
+                      <input type="hidden" class="form-control" name="cfactoryid" value="<?php echo $cfactoryid; ?>"> -->
                       <div class="row">
-                        <div class="col-md-2">
-                          <label>Current Factory<em>*</em></label>
-                          <input type="text" class="form-control" name="cfactoryid" id="cfactoryid" readonly value="<?php echo $this->session->userdata('factoryid'); ?>">
-                          <?php echo form_error('fctoryid', '<div class="error">', '</div>');  ?>
-                        </div>
                         <div class="col-md-3">
-                          <label>Disposal Factory<em>*</em></label>
-                          <input type="text" class="form-control" name="rfactoryid" id="rfactoryid" readonly value="<?php echo $this->session->userdata('factoryid'); ?>">
-                          <!-- <select class="form-control" name="rfactoryid" id="rfactoryid">
+                          <label>Factory<em>*</em></label>
+                          <select class="form-control" name="cfactoryid" id="cfactoryid">
                             <option value="">Select....</option>
                             <?php
                             foreach ($ul as $row) {
@@ -44,15 +42,21 @@
                             <?php
                             }
                             ?>
-                          </select> -->
-                          <?php echo form_error('rfctoryid', '<div class="error">', '</div>');  ?>
+                          </select>
+                          <?php echo form_error('fctoryid', '<div class="error">', '</div>');  ?>
                         </div>
                         <div class="col-md-3">
                           <label>Date<em>*</em></label>
                           <input type="text" class="form-control pd" readonly name="adate" id="adate" value="<?php echo date('d-m-Y'); ?>">
                           <?php /*?><?php echo form_error('dobdate', '<div class="error">', '</div>');  ?><?php */ ?>
                         </div>
-
+                        <!-- <div class="col-md-2">
+                          <label>Line<em>*</em></label>
+                          <select class="form-control" name="slnid" id="slnid">
+                            <option value="">Select....</option>
+                          </select>
+                          <?php echo form_error('slnid', '<div class="error">', '</div>');  ?>
+                        </div> -->
                         <div class="col-md-4">
                           <label>Machine Purpose<em>*</em></label>
                           <select class="form-control" name="mpid" id="mpid">
@@ -67,12 +71,11 @@
                           </select>
                           <?php echo form_error('mpid', '<div class="error">', '</div>');  ?>
                         </div>
+
+                        <br />
                       </div>
                       <br />
-                      
-                      
                       <div id="ajax-content-container"></div>
-                      <br />
                       <div class="row">
                         <div class="col-md-12">
                           <label>Remarks</label>
@@ -84,6 +87,7 @@
                       </div>
                     </form>
                   </div>
+
                 </div>
               </div>
             </div>
@@ -98,18 +102,16 @@
           event.preventDefault();
           var mpid = $('#mpid').val();
           var cfactoryid = $('#cfactoryid').val();
-          var rfactoryid = $('#rfactoryid').val();
           var slnid = $('#slnid').val();
           var adate = $('#adate').val();
           var remarks = $('#remarks').val();
           $.ajax({
             type: 'post',
-            url: '<?php echo base_url(); ?>Dashboard/purpose_wise_disposal_insert_machine_inventory',
+            url: '<?php echo base_url(); ?>Dashboard/purpose_wise_repair_insert_machine_inventory',
             dataType: "text",
             data: {
               mpid: mpid,
               cfactoryid: cfactoryid,
-              rfactoryid: rfactoryid,
               slnid: slnid,
               adate: adate,
               remarks: remarks
@@ -127,43 +129,32 @@
       });
     </script>
 
-
-    <script>
+    <!-- <script type="text/javascript">
       $(document).ready(function() {
-        $("#rfactoryid").change(function(event) {
+
+        $('#cfactoryid').change(function(event) {
           event.preventDefault();
-          var mpid = $('#mpid').val();
           var cfactoryid = $('#cfactoryid').val();
-          var rfactoryid = $('#rfactoryid').val();
-          var slnid = $('#slnid').val();
-          var adate = $('#adate').val();
-          var remarks = $('#remarks').val();
+
           $.ajax({
-            type: 'post',
-            url: '<?php echo base_url(); ?>Dashboard/purpose_wise_disposal_insert_machine_inventory',
-            dataType: "text",
+            type: 'get',
+            url: "<?php echo base_url(); ?>Dashboard/show_factory_wise_sewing_line",
+            dataType: "json",
             data: {
-              mpid: mpid,
-              cfactoryid: cfactoryid,
-              rfactoryid: rfactoryid,
-              slnid: slnid,
-              adate: adate,
-              remarks: remarks
+              cfactoryid: cfactoryid
             },
-            success: function(data) {
-              $('#ajax-content-container').html(data);
-
-            },
-            error: function() {
-              alert('error!');
+            success: function(res) {
+              //$('#pgid').find('option');
+              $('#slnid').find('option').not(':first').remove();
+              // Add options
+              $.each(res, function(index, data) {
+                $('#slnid').append('<option value="' + data['slnid'] + '">' + data['slname'] + '</option>');
+              });
             }
-
           });
         });
       });
-    </script>
-
-
+    </script> -->
     <script type="text/javascript">
       $(function() {
         jQuery(".pd").datepicker({

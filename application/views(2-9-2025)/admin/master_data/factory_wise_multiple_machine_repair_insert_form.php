@@ -8,7 +8,7 @@
               <div class="col-md-12">
                 <div class="box box-danger">
                   <div class="box-header with-border">
-                    <h3 class="box-title">Machine Disposal</h3>
+                    <h3 class="box-title">Machine Repair</h3>
                     <div class="row">
                       <div class="col-sm-12 col-md-12 col-lg-12">
                         <?php if ($responce = $this->session->flashdata('Successfully')): ?>
@@ -25,15 +25,25 @@
                     </div>
                   </div>
                   <div class="box-body ">
-                    <form role="form" autocomplete="off" action="<?php echo base_url(); ?>Dashboard/multiple_machine_disposal_insert" method="post" enctype="multipart/form-data">
+                    <form role="form" autocomplete="off" action="<?php echo base_url(); ?>Dashboard/multiple_machine_repair_insert" method="post" enctype="multipart/form-data">
                       <div class="row">
                         <div class="col-md-2">
                           <label>Current Factory<em>*</em></label>
                           <input type="text" class="form-control" name="cfactoryid" id="cfactoryid" readonly value="<?php echo $this->session->userdata('factoryid'); ?>">
+                          <!-- <select class="form-control" name="cfactoryid" id="cfactoryid">
+                            <option value="">Select....</option>
+                            <?php
+                            foreach ($ul as $row) {
+                            ?>
+                              <option value="<?php echo $row['factoryid']; ?>" <?php echo set_select('factoryid', $row['factoryid']); ?>><?php echo $row['factoryname']; ?></option>
+                            <?php
+                            }
+                            ?>
+                          </select> -->
                           <?php echo form_error('fctoryid', '<div class="error">', '</div>');  ?>
                         </div>
                         <div class="col-md-3">
-                          <label>Disposal Factory<em>*</em></label>
+                          <label>Repair Factory<em>*</em></label>
                           <input type="text" class="form-control" name="rfactoryid" id="rfactoryid" readonly value="<?php echo $this->session->userdata('factoryid'); ?>">
                           <!-- <select class="form-control" name="rfactoryid" id="rfactoryid">
                             <option value="">Select....</option>
@@ -68,9 +78,8 @@
                           <?php echo form_error('mpid', '<div class="error">', '</div>');  ?>
                         </div>
                       </div>
+
                       <br />
-                      
-                      
                       <div id="ajax-content-container"></div>
                       <br />
                       <div class="row">
@@ -104,7 +113,7 @@
           var remarks = $('#remarks').val();
           $.ajax({
             type: 'post',
-            url: '<?php echo base_url(); ?>Dashboard/purpose_wise_disposal_insert_machine_inventory',
+            url: '<?php echo base_url(); ?>Dashboard/purpose_wise_repair_insert_machine_inventory',
             dataType: "text",
             data: {
               mpid: mpid,
@@ -140,7 +149,7 @@
           var remarks = $('#remarks').val();
           $.ajax({
             type: 'post',
-            url: '<?php echo base_url(); ?>Dashboard/purpose_wise_disposal_insert_machine_inventory',
+            url: '<?php echo base_url(); ?>Dashboard/purpose_wise_repair_insert_machine_inventory',
             dataType: "text",
             data: {
               mpid: mpid,
